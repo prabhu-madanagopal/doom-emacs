@@ -738,6 +738,8 @@
       (:desc "project" :prefix "p"
         :desc "Browse project"          :n  "." #'+default/browse-project
         :desc "Find file in project"    :n  "/" #'projectile-find-file
+        :desc "Project ag"              :n  "g" #'projectile-ag
+        :desc "Interactive Switch"      :n  "i" #'interactive-projectile-switch-project
         :desc "Run cmd in project root" :nv "!" #'projectile-run-shell-command-in-root
         :desc "Compile project"         :n  "c" #'projectile-compile-project
         :desc "Find other file"         :n  "o" #'projectile-find-other-file

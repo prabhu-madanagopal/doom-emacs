@@ -4,8 +4,8 @@
 (package! android-mode)
 (package! groovy-mode)
 
-(when (featurep! +meghanada)
-  (package! meghanada))
+;; (when (featurep! +meghanada)
+;;   (package! meghanada))
 
 (when (featurep! +eclim)
   (package! eclim)
