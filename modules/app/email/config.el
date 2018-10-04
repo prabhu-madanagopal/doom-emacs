@@ -26,9 +26,10 @@
     (`offlineimap
      (setq mu4e-get-mail-command "offlineimap -o -q")))
 
-  (setq mu4e-update-interval nil
+  (setq mu4e-update-interval 300
         mu4e-compose-format-flowed t ; visual-line-mode + auto-fill upon sending
         mu4e-view-show-addresses t
+        mu4e-headers-auto-update t
         mu4e-sent-messages-behavior 'sent
         mu4e-index-cleanup nil
         mu4e-index-lazy-check t
@@ -37,7 +38,8 @@
         mu4e-view-show-images t
         mu4e-view-image-max-width 800
         ;; configuration for sending mail
-        message-send-mail-function #'smtpmail-send-it
+        message-send-mail-function #'message-send-mail-with-sendmail
+        send-mail-function #'message-send-mail-with-sendmail
         smtpmail-stream-type 'starttls
         message-kill-buffer-on-exit t ; close after sending
         ;; start with the first (default) context;
@@ -53,11 +55,10 @@
         mu4e-confirm-quit nil
         ;; remove 'lists' column
         mu4e-headers-fields
-        '((:account . 12)
-          (:human-date . 12)
-          (:flags . 4)
-          (:from . 25)
-          (:subject)))
+        '((:human-date . 20)
+          (:flags . 6)
+          (:from . 40)
+          (:thread-subject)))
 
   ;; Use fancy icons
   (setq mu4e-headers-has-child-prefix '("+" . "")

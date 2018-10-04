@@ -496,6 +496,7 @@
       :desc "M-x"                     :nv ":"  #'execute-extended-command
       :desc "Pop up scratch buffer"   :nv "x"  #'doom/open-scratch-buffer
       :desc "Org Capture"             :nv "X"  #'org-capture
+      :desc "Email"                   :nv "e"  #'=email
 
       ;; Most commonly used
       :desc "Find file in project"    :n "SPC" #'projectile-find-file
@@ -742,6 +743,7 @@
         :desc "Interactive Switch"      :n  "i" #'interactive-projectile-switch-project
         :desc "Run cmd in project root" :nv "!" #'projectile-run-shell-command-in-root
         :desc "Compile project"         :n  "c" #'projectile-compile-project
+        :desc "bin/doom refresh"        :n  "R" #'(lambda () (interactive) (async-shell-command "~/.emacs.d/bin/doom refresh"))
         :desc "Find other file"         :n  "o" #'projectile-find-other-file
         :desc "Switch project"          :n  "p" #'projectile-switch-project
         :desc "Recent project files"    :n  "r" #'projectile-recentf
