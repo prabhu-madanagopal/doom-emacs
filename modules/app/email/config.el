@@ -16,8 +16,7 @@
   :init
   (provide 'html2text) ; disable obsolete package
   (setq mu4e-maildir "~/.mail"
-        mu4e-attachment-dir "~/.mail/.attachments"
-        mu4e-user-mail-address-list nil)
+        mu4e-attachment-dir "/tmp")
   :config
   (pcase +email-backend
     (`mbsync
@@ -95,6 +94,12 @@
 
   (when (featurep! :feature spellcheck)
     (add-hook 'mu4e-compose-mode-hook #'flyspell-mode))
+
+  (defun insert-mu4e-sig-here ()
+    "Insert the mu4e signature here, assuming it is a string."
+    (interactive)
+    (when (stringp mu4e-compose-signature)
+      (insert mu4e-compose-signature)))
 
   ;; Wrap text in messages
   (add-hook! 'mu4e-view-mode-hook
