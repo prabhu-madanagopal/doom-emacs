@@ -6,6 +6,34 @@
 ;; tell it explicitly.
 (setq expand-region-contract-fast-key "V")
 
+(defun projectile-switch-project-by-name-ag (project-to-switch &optional arg)
+  "Switch to project by project name PROJECT-TO-SWITCH.
+Invokes the command referenced by `projectile-switch-project-action' on switch.
+With a prefix ARG invokes `projectile-commander' instead of
+`projectile-switch-project-action.'"
+  (unless (projectile-project-p project-to-switch)
+    (projectile-remove-known-project project-to-switch)
+    (error "Directory %s is not a project" project-to-switch))
+  (let ((switch-project-action (if arg
+                                   'projectile-ag
+                                 projectile-switch-project-action)))
+    (run-hooks 'projectile-before-switch-project-hook)
+    (let ((default-directory project-to-switch))
+      ;; use a temporary buffer to load PROJECT-TO-SWITCH's dir-locals before calling SWITCH-PROJECT-ACTION
+      (with-temp-buffer
+        (hack-dir-local-variables-non-file-buffer))
+      ;; Normally the project name is determined from the current
+      ;; buffer. However, when we're switching projects, we want to
+      ;; show the name of the project being switched to, rather than
+      ;; the current project, in the minibuffer. This is a simple hack
+      ;; to tell the `projectile-project-name' function to ignore the
+      ;; current buffer and the caching mechanism, and just return the
+      ;; value of the `projectile-project-name' variable.
+      (let ((projectile-project-name (funcall projectile-project-name-function
+                                              project-to-switch)))
+        (funcall switch-project-action)))
+    (run-hooks 'projectile-after-switch-project-hook)))
+
 ;;
 (map! [remap evil-jump-to-tag] #'projectile-find-tag
       [remap find-tag]         #'projectile-find-tag
@@ -744,7 +772,10 @@
         :desc "Run cmd in project root" :nv "!" #'projectile-run-shell-command-in-root
         :desc "Compile project"         :n  "c" #'projectile-compile-project
         :desc "bin/doom refresh"        :n  "R" #'(lambda () (interactive) (async-shell-command "~/.emacs.d/bin/doom refresh"))
-        :desc "Find other file"         :n  "o" #'projectile-find-other-file
+        :desc "Open mdev file"          :n  "o" #'(lambda () (interactive) (projectile-switch-project-by-name "/SAPDevelop/AN/src/ariba/ond/AN/mdev"))
+        :desc "Mdev ag"                 :n  "G" #'mdev-ag
+        :desc "Mdev ag files"           :n  "F" #'mdev-ag-files
+        :desc "Find other file"         :n  "O" #'projectile-find-other-file
         :desc "Switch project"          :n  "p" #'projectile-switch-project
         :desc "Recent project files"    :n  "r" #'projectile-recentf
         :desc "List project tasks"      :n  "t" #'+ivy/tasks
