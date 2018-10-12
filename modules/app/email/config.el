@@ -20,7 +20,7 @@
   :config
   (pcase +email-backend
     (`mbsync
-     (setq mu4e-get-mail-command "mbsync -a"
+     (setq mu4e-get-mail-command "mbsync -a && notmuch new && afew --tag --new"
            mu4e-change-filenames-when-moving t))
     (`offlineimap
      (setq mu4e-get-mail-command "offlineimap -o -q")))

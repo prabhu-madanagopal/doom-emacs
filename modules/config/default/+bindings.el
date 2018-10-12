@@ -6,33 +6,6 @@
 ;; tell it explicitly.
 (setq expand-region-contract-fast-key "V")
 
-(defun projectile-switch-project-by-name-ag (project-to-switch &optional arg)
-  "Switch to project by project name PROJECT-TO-SWITCH.
-Invokes the command referenced by `projectile-switch-project-action' on switch.
-With a prefix ARG invokes `projectile-commander' instead of
-`projectile-switch-project-action.'"
-  (unless (projectile-project-p project-to-switch)
-    (projectile-remove-known-project project-to-switch)
-    (error "Directory %s is not a project" project-to-switch))
-  (let ((switch-project-action (if arg
-                                   'projectile-ag
-                                 projectile-switch-project-action)))
-    (run-hooks 'projectile-before-switch-project-hook)
-    (let ((default-directory project-to-switch))
-      ;; use a temporary buffer to load PROJECT-TO-SWITCH's dir-locals before calling SWITCH-PROJECT-ACTION
-      (with-temp-buffer
-        (hack-dir-local-variables-non-file-buffer))
-      ;; Normally the project name is determined from the current
-      ;; buffer. However, when we're switching projects, we want to
-      ;; show the name of the project being switched to, rather than
-      ;; the current project, in the minibuffer. This is a simple hack
-      ;; to tell the `projectile-project-name' function to ignore the
-      ;; current buffer and the caching mechanism, and just return the
-      ;; value of the `projectile-project-name' variable.
-      (let ((projectile-project-name (funcall projectile-project-name-function
-                                              project-to-switch)))
-        (funcall switch-project-action)))
-    (run-hooks 'projectile-after-switch-project-hook)))
 
 ;;
 (map! [remap evil-jump-to-tag] #'projectile-find-tag
@@ -764,7 +737,10 @@ With a prefix ARG invokes `projectile-commander' instead of
         (:when (featurep! :tools docker)
           :desc "Docker"                    :n "D" #'docker))
 
-      (:desc "project" :prefix "p"
+       (:desc "meta" :prefix "m"
+        :desc "xref-find-references"    :n  "?" #'xref-find-references)
+
+     (:desc "project" :prefix "p"
         :desc "Browse project"          :n  "." #'+default/browse-project
         :desc "Find file in project"    :n  "/" #'projectile-find-file
         :desc "Project ag"              :n  "g" #'projectile-ag
