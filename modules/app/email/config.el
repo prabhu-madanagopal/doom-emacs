@@ -54,10 +54,11 @@
         mu4e-confirm-quit nil
         ;; remove 'lists' column
         mu4e-headers-fields
-        '((:human-date . 20)
+        '((:maildir . 15)
+          (:date . 25)
           (:flags . 6)
-          (:from . 40)
-          (:thread-subject)))
+          (:from-or-to . 40)
+          (:subject)))
 
   ;; Use fancy icons
   (setq mu4e-headers-has-child-prefix '("+" . "")
