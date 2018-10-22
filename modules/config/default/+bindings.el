@@ -97,6 +97,7 @@
       :v  "gp" #'+evil/paste-preserve-register
       :n  "gr" #'+eval:region
       :n  "gR" #'+eval/buffer
+      :n  "g!" #'shell-command-on-buffer
       :v  "gR" #'+eval:replace-region
       :nv "g-" #'+evil:narrow-buffer
       :n  "g=" #'widen
