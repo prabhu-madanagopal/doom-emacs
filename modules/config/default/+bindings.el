@@ -554,6 +554,9 @@
         :desc "Symbols across buffers" :nv "I" #'imenu-anywhere
         :desc "Online providers"       :nv "o" #'+lookup/online-select)
 
+      (:desc "mail" :prefix "m"
+        :desc "Mail send"                :n "s"   #'message-send-and-exit)
+     
       (:desc "workspace" :prefix [tab]
         :desc "Display tab bar"          :n [tab] #'+workspace/display
         :desc "New workspace"            :n "n"   #'+workspace/new
@@ -642,6 +645,7 @@
         :desc "Browse issues tracker" :n  "I" #'+vc/git-browse-issues
         :desc "Magit buffer log"      :n  "l" #'magit-log-buffer-file
         :desc "List repositories"     :n  "L" #'magit-list-repositories
+        :desc "Magit"                 :n  "m" #'magit
         :desc "Browse remote"         :n  "o" #'+vc/git-browse
         :desc "Magit push popup"      :n  "p" #'magit-push-popup
         :desc "Magit pull popup"      :n  "P" #'magit-pull-popup
